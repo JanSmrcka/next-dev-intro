@@ -16,6 +16,74 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+---
+
+## Prisma ORM & SQLite Setup
+
+This project uses [Prisma ORM](https://www.prisma.io/) with SQLite for managing todos.
+
+### 1. Install dependencies
+
+```bash
+npm install prisma @prisma/client sqlite3
+```
+
+### 2. Initialize Prisma (if not already present)
+
+```bash
+npx prisma init
+```
+
+> If the `prisma/` folder already exists, skip this step.
+
+### 3. Configure the database
+
+- In `.env` (at the project root), set:
+  ```
+  DATABASE_URL="file:./dev.db"
+  ```
+
+### 4. Define the schema
+
+- In `prisma/schema.prisma`, use:
+
+  ```prisma
+  datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+  }
+
+  generator client {
+    provider = "prisma-client-js"
+  }
+
+  model Todo {
+    id          Int     @id @default(autoincrement())
+    name        String
+    completed   Boolean
+    description String?
+    priority    Int?
+  }
+  ```
+
+### 5. Run migrations and generate the client
+
+```bash
+npx prisma migrate dev --name init
+```
+
+- This will create `dev.db` and generate the Prisma client in the default location: `node_modules/@prisma/client`.
+
+### 6. Usage
+
+- Import and use the Prisma client in your code:
+  ```ts
+  import { PrismaClient } from "@prisma/client";
+  const prisma = new PrismaClient();
+  ```
+
+---
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

@@ -1,8 +1,8 @@
-import { API_URL } from "@/constants";
+"use server";
+import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function createTodo(formData: FormData) {
-  "use server";
   const todoText = formData.get("todo-text") as string;
   if (!todoText) {
     throw new Error("Todo text cannot be empty");
@@ -12,12 +12,9 @@ export async function createTodo(formData: FormData) {
     completed: false,
   };
 
-  await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newTodo),
+  await prisma.todo.create({
+    data: newTodo,
   });
+
   revalidatePath("/"); // Revalidate the home page to reflect the new todo
 }

@@ -1,10 +1,13 @@
 import { Header } from "@/components/header";
 import { TodosSection } from "@/components/todos/todos-section";
-import { API_URL } from "@/constants";
+import { prisma } from "@/lib/prisma";
 
 async function fetchTodos() {
-  const response = await fetch(API_URL);
-  return response.json();
+  return await prisma.todo.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 }
 
 export default async function Home() {
