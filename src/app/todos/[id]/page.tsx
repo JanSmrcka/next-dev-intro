@@ -1,17 +1,17 @@
 import { Header } from "@/components/header";
+import { API_URL } from "@/constants";
 import { Todo } from "@/types";
 import Link from "next/link";
 
-const TodoDetailPage = ({ params }: { params: { id: string } }) => {
-  // Simulating fetching a todo item based on the ID from params
-  const todo: Todo = {
-    id: Number(params.id),
-    name: "Sample Todo",
-    description: "This is a sample todo item.",
-    completed: false,
-    priority: 3,
-  };
+async function fetchTodo(id: number) {
+  const response = await fetch(`${API_URL}/${id}`);
+  return await response.json();
+}
 
+const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
+  // Simulating fetching a todo item based on the ID from params
+  const todoId = parseInt(params.id, 10);
+  const todo: Todo = await fetchTodo(todoId);
   return (
     <>
       <Header title="Todo Detail" subtitle="Here is detail of todo" />
