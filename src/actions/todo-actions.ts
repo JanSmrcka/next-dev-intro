@@ -1,19 +1,15 @@
+"use server";
+
 import { revalidatePath } from "next/cache";
+import prisma from "@/lib/prisma";
 
 export async function createTodo(formData: FormData) {
-  "use server";
   const todoName = formData.get("todo-text") as string;
-  const API_URL = "https://eli-workshop.vercel.app/api/users/luut02/todos";
-
   const newTodo = {
     name: todoName,
   };
-  await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newTodo),
+  await prisma.todo.create({
+    data: newTodo,
   });
   revalidatePath("/");
 }
