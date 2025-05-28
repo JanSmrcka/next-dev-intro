@@ -1,7 +1,7 @@
 import { Header } from "@/components/header";
 import { ToggleButton } from "@/app/todos/[id]/components/toggle-button";
 import prisma from "@/lib/prisma";
-import Link from "next/link";
+import { HomeButton } from "./components/home-button";
 
 async function getTodo(id: number) {
   const todo = await prisma.todo.findUnique({
@@ -42,9 +42,7 @@ const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
         </div>
 
         <div>
-          <Link href="/">
-            <button className="back-button">Back to Home</button>
-          </Link>
+          <HomeButton />
           <ToggleButton todo={todo} />
         </div>
       </div>
