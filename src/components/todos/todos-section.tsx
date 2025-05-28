@@ -4,13 +4,14 @@ import { Spinner } from "../spinner";
 import { ErrorMessage } from "../error-message";
 import { Todo } from "@/types";
 
-export const TodosSection = () => {
-  const todos: Todo[] = [];
-  const isLoading = false; // Simulating loading state
+type Props = {
+  todos: Todo[];
+};
+
+export const TodosSection = ( {todos}:Props ) => {
   const error = null; // Simulating no error state
   return (
     <main>
-      {error && <ErrorMessage message={"test"} />}
       <TodoForm />
       <div className="todo-container">
         <ul>
@@ -18,7 +19,6 @@ export const TodosSection = () => {
             return <TodoItem key={todo.id} todo={todo} />;
           })}
         </ul>
-        {isLoading && <Spinner />}
       </div>
     </main>
   );
