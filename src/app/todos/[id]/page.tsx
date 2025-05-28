@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import { ToggleButton } from "@/app/todos/[id]/components/toggle-button";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 
@@ -44,9 +45,7 @@ const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
           <Link href="/">
             <button className="back-button">Back to Home</button>
           </Link>
-          <button className="complete-button">
-            {todo.completed ? "Undo" : "Complete"}
-          </button>
+          <ToggleButton todo={todo} />
         </div>
       </div>
     </>

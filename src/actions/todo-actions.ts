@@ -15,3 +15,25 @@ export async function createTodo(formData: FormData) {
 
   revalidatePath("/");
 }
+
+export async function deleteTodo(id: number) {
+  await prisma.todo.delete({
+    where: { id: id },
+  });
+  revalidatePath("/");
+}
+
+export async function toggleTodo(id: number) {
+  const todo = await prisma.todo.findUnique({
+    where: { id: id },
+  });
+  if (!todo) {
+    return;
+  }
+  await prisma.todo.update({
+    where: { id: id },
+    data: { completed: !todo.completed },
+  });
+  revalidatePath("/");
+  revalidatePath(`/todos/${id}`);
+}
