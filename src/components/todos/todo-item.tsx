@@ -1,3 +1,4 @@
+"use client";
 import { Todo } from "@/types";
 import Link from "next/link";
 
