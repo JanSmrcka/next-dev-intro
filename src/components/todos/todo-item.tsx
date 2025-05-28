@@ -1,17 +1,18 @@
 "use client"
-import { Todo } from "@/types";
 import Link from "next/link";
+import {deleteTodo, toggleTodo} from "@/actions/todo-actions";
+import {Todo} from "@prisma/client";
 
 type TodoItemProps = {
   todo: Todo;
 };
 export const TodoItem = ({ todo }: TodoItemProps) => {
-  const handleDeleteTodo = () => {
-    // deleteTodo({ id: todo.id });
+  const handleDeleteTodo = async () => {
+    await deleteTodo(todo.id);
   };
 
-  const handleToggleTodo = () => {
-    // toggleTodo({ id: todo.id, completed: !todo.completed });
+  const handleToggleTodo = async () => {
+    await toggleTodo(todo.id);
   };
 
   return (

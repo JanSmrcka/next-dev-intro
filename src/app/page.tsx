@@ -1,10 +1,10 @@
-import { Header } from "@/components/header";
-import { TodosSection } from "@/components/todos/todos-section";
+import {Header} from "@/components/header";
+import {TodosSection} from "@/components/todos/todos-section";
+import prisma from "@/lib/prisma";
 
-const API_URL = "https://eli-workshop.vercel.app/api/users/jirp13/todos"
 const fetchTodos = async () => {
-    const response = await fetch(API_URL)
-    return await response.json()
+    const response = await prisma.todo.findMany()
+    return response
 }
 
 export default async function Home() {
