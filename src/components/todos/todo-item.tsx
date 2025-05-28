@@ -1,4 +1,5 @@
-import { Todo } from "@/types";
+"use client";
+import { Todo } from "@prisma/client";
 import Link from "next/link";
 
 type TodoItemProps = {
