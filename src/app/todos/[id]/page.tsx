@@ -1,16 +1,24 @@
 import { Header } from "@/components/header";
-import { Todo } from "@/types";
+import prisma from "@/lib/prisma";
 import Link from "next/link";
 
-const TodoDetailPage = ({ params }: { params: { id: string } }) => {
+async function getTodo(id: number) {
+  return await prisma.todo.findUnique({
+    where: {
+      id: id,
+    },
+  });
+}
+
+const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
   // Simulating fetching a todo item based on the ID from params
-  const todo: Todo = {
-    id: Number(params.id),
-    name: "Sample Todo",
-    description: "This is a sample todo item.",
-    completed: false,
-    priority: 3,
-  };
+  const queryParams = await params
+  const todo = await getTodo(Number(queryParams.id));
+  
+
+  if (!todo){
+    return <div>Not found</div>
+  }
 
   return (
     <>

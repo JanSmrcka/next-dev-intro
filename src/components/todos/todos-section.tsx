@@ -1,15 +1,12 @@
+import { Todo } from "@prisma/client";
 import { TodoForm } from "./todo-form";
 import { TodoItem } from "./todo-item";
-import { Spinner } from "../spinner";
-import { ErrorMessage } from "../error-message";
-import { Todo } from "@/types";
 
 type Props = {
   todos: Todo[];
 };
 
 export const TodosSection = ( {todos}:Props ) => {
-  const error = null; // Simulating no error state
   return (
     <main>
       <TodoForm />
