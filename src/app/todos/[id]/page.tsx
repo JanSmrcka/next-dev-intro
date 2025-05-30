@@ -81,6 +81,9 @@ const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
           <HomeButton />
           <ToggleButton todo={todo} />
           <DeleteButton todo={todo} />
+          <a href={`/todos/${todo.id}/edit`} className="edit-button">
+            Edit
+          </a>
         </div>
       </div>
     </>

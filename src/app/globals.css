@@ -519,3 +519,18 @@ li.clickable:hover {
   color: var(--text-secondary);
   font-weight: normal;
 }
+
+.edit-button {
+  background-color: var(--primary);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  font-weight: bold;
+  display: inline-block;
+  text-decoration: none;
+  transition: background-color 0.2s ease-out;
+}
+
+.edit-button:hover {
+  background-color: var(--primary-hover);
+}

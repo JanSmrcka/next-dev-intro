@@ -47,3 +47,29 @@ export async function toggleTodo(id: number) {
   revalidatePath("/");
   revalidatePath(`/todos/${id}`);
 }
+
+export async function updateTodo(id: number, formData: FormData) {
+  const name = formData.get("name") as string;
+  const description = formData.get("description") as string;
+  const priority = parseInt(formData.get("priority") as string) || 0;
+
+  const todo = await prisma.todo.findUnique({
+    where: { id: id },
+  });
+
+  if (!todo) {
+    return;
+  }
+
+  await prisma.todo.update({
+    where: { id: id },
+    data: {
+      name,
+      description: description || null,
+      priority,
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath(`/todos/${id}`);
+}

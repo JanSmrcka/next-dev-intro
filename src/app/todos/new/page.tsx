@@ -6,7 +6,7 @@ export default function NewTodoPage() {
     <>
       <Header title="Add New Todo" subtitle="Create a new task" />
       <div className="container">
-        <TodoForm />
+        <TodoForm mode="create" />
       </div>
     </>
   );
