@@ -1,5 +1,6 @@
 import { Header } from "@/components/header";
 import { ToggleButton } from "@/app/todos/[id]/components/toggle-button";
+import { DeleteButton } from "@/app/todos/[id]/components/delete-button";
 import prisma from "@/lib/prisma";
 import { HomeButton } from "./components/home-button";
 
@@ -41,9 +42,10 @@ const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
           )}
         </div>
 
-        <div>
+        <div className="todo-detail-actions">
           <HomeButton />
           <ToggleButton todo={todo} />
+          <DeleteButton todo={todo} />
         </div>
       </div>
     </>

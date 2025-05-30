@@ -1,5 +1,6 @@
 "use client";
-import { deleteTodo, toggleTodo } from "@/actions/todo-actions";
+import { DeleteButton } from "@/app/todos/[id]/components/delete-button";
+import { ToggleButton } from "@/app/todos/[id]/components/toggle-button";
 import { Todo } from "@prisma/client";
 import Link from "next/link";
 
@@ -7,21 +8,11 @@ type TodoItemProps = {
   todo: Todo;
 };
 export const TodoItem = ({ todo }: TodoItemProps) => {
-  const handleDeleteTodo = async () => {
-    await deleteTodo(todo.id);
-  };
-
-  const handleToggleTodo = async () => {
-    await toggleTodo(todo.id);
-  };
-
   return (
     <li className={todo.completed ? "completed" : ""}>
       <span>{todo.name}</span>
-      <button onClick={handleDeleteTodo}>Delete</button>
-      <button onClick={handleToggleTodo} className="toggle">
-        {todo.completed ? "Undo" : "Completed"}
-      </button>
+      <DeleteButton todo={todo} />
+      <ToggleButton todo={todo} />
       <Link href={`/todos/${todo.id}`} className="link">
         Go to Detail
       </Link>
