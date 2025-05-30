@@ -358,3 +358,23 @@ footer {
 .complete-button:hover {
   background-color: var(--success-hover);
 }
+
+.filter-container {
+  margin-bottom: 1rem;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.filter-input::placeholder {
+  color: var(--text-secondary);
+}
