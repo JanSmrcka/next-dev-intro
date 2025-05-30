@@ -1,6 +1,5 @@
 "use client";
 import { Todo } from "@prisma/client";
-import { TodoForm } from "./todo-form";
 import { TodoItem } from "./todo-item";
 import { useState } from "react";
 
@@ -17,7 +16,6 @@ export const TodosSection = ({ todos }: Props) => {
 
   return (
     <main>
-      <TodoForm />
       <div className="filter-container">
         <input
           type="text"

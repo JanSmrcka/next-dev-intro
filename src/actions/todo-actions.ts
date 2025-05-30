@@ -3,10 +3,14 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function createTodo(formData: FormData) {
-  const todoName = formData.get("todo-text") as string;
+  const name = formData.get("name") as string;
+  const description = formData.get("description") as string;
+  const priority = parseInt(formData.get("priority") as string) || 0;
 
   const newTodo = {
-    name: todoName,
+    name,
+    description: description || null,
+    priority,
   };
 
   await prisma.todo.create({
