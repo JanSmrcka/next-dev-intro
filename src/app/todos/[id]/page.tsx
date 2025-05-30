@@ -4,6 +4,19 @@ import { DeleteButton } from "@/app/todos/[id]/components/delete-button";
 import prisma from "@/lib/prisma";
 import { HomeButton } from "./components/home-button";
 
+const getPriorityText = (priority: number) => {
+  switch (priority) {
+    case 0:
+      return "Low";
+    case 1:
+      return "Medium";
+    case 2:
+      return "High";
+    default:
+      return "Unknown";
+  }
+};
+
 async function getTodo(id: number) {
   const todo = await prisma.todo.findUnique({
     where: { id: id },
@@ -32,7 +45,10 @@ const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
             </span>
           </div>
           <div className="todo-detail-status">
-            Priority: <span className={"completed"}>{todo.priority}</span>
+            Priority:{" "}
+            <span className={`priority-${todo.priority}`}>
+              {getPriorityText(todo.priority)}
+            </span>
           </div>
 
           {todo.description && (

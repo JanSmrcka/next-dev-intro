@@ -499,3 +499,18 @@ li.clickable:hover {
   display: flex;
   gap: 0.5rem;
 }
+
+.priority-0 {
+  color: var(--success);
+  font-weight: bold;
+}
+
+.priority-1 {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.priority-2 {
+  color: var(--danger);
+  font-weight: bold;
+}
