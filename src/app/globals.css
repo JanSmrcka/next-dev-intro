@@ -230,16 +230,17 @@ footer {
 /* ...existing code... */
 
 .error-message {
-  background-color: rgba(237, 66, 69, 0.15);
+  background-color: rgba(237, 66, 69, 0.1);
   border-left: 4px solid var(--danger);
   color: var(--text);
   padding: 1rem;
   border-radius: var(--radius);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  animation: fadeIn 0.3s ease-in-out;
+  animation: slideIn 0.3s ease-out;
+  box-shadow: 0 2px 8px rgba(237, 66, 69, 0.2);
 }
 
 .error-content {
@@ -252,27 +253,30 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   background-color: var(--danger);
   border-radius: 50%;
   color: white;
-  font-weight: bold;
+  font-size: 0.875rem;
   flex-shrink: 0;
 }
 
 .error-dismiss {
   background-color: transparent;
   color: var(--text-secondary);
-  padding: 0.25rem 0.5rem;
-  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
 }
 
 .error-dismiss:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(237, 66, 69, 0.2);
+  color: var(--text);
 }
 
-@keyframes fadeIn {
+@keyframes slideIn {
   from {
     opacity: 0;
     transform: translateY(-10px);

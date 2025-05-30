@@ -1,19 +1,26 @@
-type ErrorProps = {
-  message: string
-  onDismiss?: () => void
+"use client";
+
+import { FaExclamationTriangle } from "react-icons/fa";
+
+interface ErrorMessageProps {
+  message: string;
+  onDismiss?: () => void;
 }
-export const ErrorMessage = ({ message, onDismiss }: ErrorProps) => {
+
+export function ErrorMessage({ message, onDismiss }: ErrorMessageProps) {
   return (
     <div className="error-message">
       <div className="error-content">
-        <span className="error-icon">!</span>
+        <div className="error-icon">
+          <FaExclamationTriangle />
+        </div>
         <span>{message}</span>
       </div>
       {onDismiss && (
-        <button className="error-dismiss" onClick={onDismiss}>
+        <button onClick={onDismiss} className="error-dismiss">
           Dismiss
         </button>
       )}
     </div>
-  )
+  );
 }

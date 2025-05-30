@@ -3,73 +3,92 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function createTodo(formData: FormData) {
-  const name = formData.get("name") as string;
-  const description = formData.get("description") as string;
-  const priority = parseInt(formData.get("priority") as string) || 0;
+  try {
+    const name = formData.get("name") as string;
+    const description = formData.get("description") as string;
+    const priority = parseInt(formData.get("priority") as string);
 
-  const newTodo = {
-    name,
-    description: description || null,
-    priority,
-  };
+    if (!name) {
+      throw new Error("Name is required");
+    }
 
-  await prisma.todo.create({
-    data: newTodo,
-  });
+    await prisma.todo.create({
+      data: {
+        name,
+        description,
+        priority,
+      },
+    });
 
-  revalidatePath("/");
+    revalidatePath("/");
+  } catch (error) {
+    console.error("Error creating todo:", error);
+    throw new Error("Failed to create todo. Please try again.");
+  }
 }
 
 export async function deleteTodo(id: number) {
-  await prisma.todo.delete({
-    where: { id: id },
-  });
-  revalidatePath("/");
+  try {
+    await prisma.todo.delete({
+      where: { id },
+    });
+
+    revalidatePath("/");
+  } catch (error) {
+    console.error("Error deleting todo:", error);
+    throw new Error("Failed to delete todo. Please try again.");
+  }
 }
 
 export async function toggleTodo(id: number) {
-  const todo = await prisma.todo.findUnique({
-    where: { id: id },
-  });
+  try {
+    const todo = await prisma.todo.findUnique({
+      where: { id },
+    });
 
-  if (!todo) {
-    return;
+    if (!todo) {
+      throw new Error("Todo not found");
+    }
+
+    await prisma.todo.update({
+      where: { id },
+      data: {
+        completed: !todo.completed,
+        completedAt: !todo.completed ? new Date() : null,
+      },
+    });
+
+    revalidatePath("/");
+    revalidatePath(`/todos/${id}`);
+  } catch (error) {
+    console.error("Error toggling todo:", error);
+    throw new Error("Failed to update todo status. Please try again.");
   }
-
-  await prisma.todo.update({
-    where: { id: id },
-    data: {
-      completed: !todo.completed,
-      completedAt: !todo.completed ? new Date() : null,
-    },
-  });
-
-  revalidatePath("/");
-  revalidatePath(`/todos/${id}`);
 }
 
 export async function updateTodo(id: number, formData: FormData) {
-  const name = formData.get("name") as string;
-  const description = formData.get("description") as string;
-  const priority = parseInt(formData.get("priority") as string) || 0;
+  try {
+    const name = formData.get("name") as string;
+    const description = formData.get("description") as string;
+    const priority = parseInt(formData.get("priority") as string);
 
-  const todo = await prisma.todo.findUnique({
-    where: { id: id },
-  });
+    if (!name) {
+      throw new Error("Name is required");
+    }
 
-  if (!todo) {
-    return;
+    await prisma.todo.update({
+      where: { id },
+      data: {
+        name,
+        description,
+        priority,
+      },
+    });
+
+    revalidatePath("/");
+    revalidatePath(`/todos/${id}`);
+  } catch (error) {
+    console.error("Error updating todo:", error);
+    throw new Error("Failed to update todo. Please try again.");
   }
-
-  await prisma.todo.update({
-    where: { id: id },
-    data: {
-      name,
-      description: description || null,
-      priority,
-    },
-  });
-
-  revalidatePath("/");
-  revalidatePath(`/todos/${id}`);
 }

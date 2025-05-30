@@ -10,6 +10,8 @@ import {
   FaSave,
   FaTimes,
 } from "react-icons/fa";
+import { ErrorMessage } from "@/components/error-message";
+import { useState } from "react";
 
 interface TodoFormProps {
   todo?: Todo;
@@ -18,19 +20,29 @@ interface TodoFormProps {
 
 export function TodoForm({ todo, mode }: TodoFormProps) {
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(formData: FormData) {
-    if (mode === "create") {
-      await createTodo(formData);
-      router.push("/");
-    } else if (todo) {
-      await updateTodo(todo.id, formData);
-      router.push(`/todos/${todo.id}`);
+    try {
+      setError(null);
+      if (mode === "create") {
+        await createTodo(formData);
+        router.push("/");
+      } else if (todo) {
+        await updateTodo(todo.id, formData);
+        router.push(`/todos/${todo.id}`);
+      }
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "An error occurred");
     }
   }
 
   return (
     <form action={handleSubmit} className="todo-form">
+      {error && (
+        <ErrorMessage message={error} onDismiss={() => setError(null)} />
+      )}
+
       <div className="form-group">
         <label htmlFor="name">
           <FaTasks className="form-icon" /> Task Name
