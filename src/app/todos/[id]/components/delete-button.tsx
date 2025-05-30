@@ -2,6 +2,7 @@
 import { deleteTodo } from "@/actions/todo-actions";
 import { Todo } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { FaTrash } from "react-icons/fa";
 
 type Props = {
   todo: Todo;
@@ -20,7 +21,7 @@ export const DeleteButton = ({ todo }: Props) => {
 
   return (
     <button onClick={handleDelete} className="delete-button">
-      Delete Todo
+      <FaTrash />
     </button>
   );
 };

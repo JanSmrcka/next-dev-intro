@@ -3,6 +3,7 @@ import { ToggleButton } from "@/app/todos/[id]/components/toggle-button";
 import { DeleteButton } from "@/app/todos/[id]/components/delete-button";
 import prisma from "@/lib/prisma";
 import { HomeButton } from "./components/home-button";
+import { FaExclamationCircle, FaCalendarAlt, FaEdit } from "react-icons/fa";
 
 const getPriorityText = (priority: number) => {
   switch (priority) {
@@ -29,7 +30,7 @@ const formatDate = (date: Date) => {
 
 async function getTodo(id: number) {
   const todo = await prisma.todo.findUnique({
-    where: { id: id },
+    where: { id },
   });
   return todo;
 }
@@ -57,16 +58,21 @@ const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
           <div className="todo-detail-status">
             Priority:{" "}
             <span className={`priority-${todo.priority}`}>
-              {getPriorityText(todo.priority)}
+              <FaExclamationCircle /> {getPriorityText(todo.priority)}
             </span>
           </div>
           <div className="todo-detail-status">
-            Created: <span className="date">{formatDate(todo.createdAt)}</span>
+            Created:{" "}
+            <span className="date">
+              <FaCalendarAlt /> {formatDate(todo.createdAt)}
+            </span>
           </div>
           {todo.completed && todo.completedAt && (
             <div className="todo-detail-status">
               Completed:{" "}
-              <span className="date">{formatDate(todo.completedAt)}</span>
+              <span className="date">
+                <FaCalendarAlt /> {formatDate(todo.completedAt)}
+              </span>
             </div>
           )}
 
@@ -82,7 +88,7 @@ const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
           <ToggleButton todo={todo} />
           <DeleteButton todo={todo} />
           <a href={`/todos/${todo.id}/edit`} className="edit-button">
-            Edit
+            <FaEdit /> Edit
           </a>
         </div>
       </div>

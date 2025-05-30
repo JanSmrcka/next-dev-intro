@@ -3,6 +3,13 @@
 import { Todo } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { createTodo, updateTodo } from "@/actions/todo-actions";
+import {
+  FaTasks,
+  FaAlignLeft,
+  FaExclamationCircle,
+  FaSave,
+  FaTimes,
+} from "react-icons/fa";
 
 interface TodoFormProps {
   todo?: Todo;
@@ -25,7 +32,9 @@ export function TodoForm({ todo, mode }: TodoFormProps) {
   return (
     <form action={handleSubmit} className="todo-form">
       <div className="form-group">
-        <label htmlFor="name">Task Name</label>
+        <label htmlFor="name">
+          <FaTasks className="form-icon" /> Task Name
+        </label>
         <input
           type="text"
           id="name"
@@ -37,7 +46,9 @@ export function TodoForm({ todo, mode }: TodoFormProps) {
       </div>
 
       <div className="form-group">
-        <label htmlFor="description">Description</label>
+        <label htmlFor="description">
+          <FaAlignLeft className="form-icon" /> Description
+        </label>
         <textarea
           id="description"
           name="description"
@@ -48,7 +59,9 @@ export function TodoForm({ todo, mode }: TodoFormProps) {
       </div>
 
       <div className="form-group">
-        <label htmlFor="priority">Priority</label>
+        <label htmlFor="priority">
+          <FaExclamationCircle className="form-icon" /> Priority
+        </label>
         <select
           id="priority"
           name="priority"
@@ -62,6 +75,7 @@ export function TodoForm({ todo, mode }: TodoFormProps) {
 
       <div className="form-actions">
         <button type="submit">
+          <FaSave className="form-icon" />{" "}
           {mode === "create" ? "Create Todo" : "Update Todo"}
         </button>
         <button
@@ -71,7 +85,7 @@ export function TodoForm({ todo, mode }: TodoFormProps) {
             router.push(mode === "create" ? "/" : `/todos/${todo?.id}`)
           }
         >
-          Cancel
+          <FaTimes className="form-icon" /> Cancel
         </button>
       </div>
     </form>
