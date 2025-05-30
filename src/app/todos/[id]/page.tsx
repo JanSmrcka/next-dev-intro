@@ -17,6 +17,16 @@ const getPriorityText = (priority: number) => {
   }
 };
 
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
+};
+
 async function getTodo(id: number) {
   const todo = await prisma.todo.findUnique({
     where: { id: id },
@@ -50,6 +60,15 @@ const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
               {getPriorityText(todo.priority)}
             </span>
           </div>
+          <div className="todo-detail-status">
+            Created: <span className="date">{formatDate(todo.createdAt)}</span>
+          </div>
+          {todo.completed && todo.completedAt && (
+            <div className="todo-detail-status">
+              Completed:{" "}
+              <span className="date">{formatDate(todo.completedAt)}</span>
+            </div>
+          )}
 
           {todo.description && (
             <div className="todo-detail-description">

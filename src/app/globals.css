@@ -514,3 +514,8 @@ li.clickable:hover {
   color: var(--danger);
   font-weight: bold;
 }
+
+.date {
+  color: var(--text-secondary);
+  font-weight: normal;
+}

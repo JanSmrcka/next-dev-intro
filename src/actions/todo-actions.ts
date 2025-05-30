@@ -31,13 +31,19 @@ export async function toggleTodo(id: number) {
   const todo = await prisma.todo.findUnique({
     where: { id: id },
   });
+
   if (!todo) {
     return;
   }
+
   await prisma.todo.update({
     where: { id: id },
-    data: { completed: !todo.completed },
+    data: {
+      completed: !todo.completed,
+      completedAt: !todo.completed ? new Date() : null,
+    },
   });
+
   revalidatePath("/");
   revalidatePath(`/todos/${id}`);
 }
