@@ -485,3 +485,17 @@ footer {
 .delete-button:hover {
   background-color: #c03537;
 }
+
+li.clickable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+li.clickable:hover {
+  background-color: var(--bg-secondary);
+}
+
+.todo-actions {
+  display: flex;
+  gap: 0.5rem;
+}
