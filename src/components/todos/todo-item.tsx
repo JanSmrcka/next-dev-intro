@@ -3,7 +3,9 @@ import { DeleteButton } from "@/app/todos/[id]/components/delete-button";
 import { ToggleButton } from "@/app/todos/[id]/components/toggle-button";
 import { Todo } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { FaExclamationCircle } from "react-icons/fa";
+import { Spinner } from "../spinner";
 
 type TodoItemProps = {
   todo: Todo;
@@ -11,14 +13,21 @@ type TodoItemProps = {
 
 export const TodoItem = ({ todo }: TodoItemProps) => {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const handleClick = (e: React.MouseEvent) => {
-    // Pokud byl kliknut na tlačítko, nechceme přesměrovat na detail
-    if ((e.target as HTMLElement).closest("button")) {
-      return;
-    }
-    router.push(`/todos/${todo.id}`);
+    startTransition(() => {
+      // Pokud byl kliknut na tlačítko, nechceme přesměrovat na detail
+      if ((e.target as HTMLElement).closest("button")) {
+        return;
+      }
+      router.push(`/todos/${todo.id}`);
+    });
   };
+
+  if (isPending) {
+    return <Spinner />;
+  }
 
   return (
     <li

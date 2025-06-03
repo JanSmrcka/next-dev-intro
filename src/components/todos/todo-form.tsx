@@ -11,7 +11,8 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import { ErrorMessage } from "@/components/error-message";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { Spinner } from "../spinner";
 
 interface TodoFormProps {
   todo?: Todo;
@@ -21,20 +22,27 @@ interface TodoFormProps {
 export function TodoForm({ todo, mode }: TodoFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
 
   async function handleSubmit(formData: FormData) {
     try {
       setError(null);
-      if (mode === "create") {
-        await createTodo(formData);
-        router.push("/");
-      } else if (todo) {
-        await updateTodo(todo.id, formData);
-        router.push(`/todos/${todo.id}`);
-      }
+      startTransition(async () => {
+        if (mode === "create") {
+          await createTodo(formData);
+          router.push("/");
+        } else if (todo) {
+          await updateTodo(todo.id, formData);
+          router.push(`/todos/${todo.id}`);
+        }
+      });
     } catch (error) {
       setError(error instanceof Error ? error.message : "An error occurred");
     }
+  }
+
+  if (pending) {
+    return <Spinner />;
   }
 
   return (
