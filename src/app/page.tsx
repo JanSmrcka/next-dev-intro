@@ -1,11 +1,20 @@
 import { Header } from "@/components/header";
 import { TodosSection } from "@/components/todos/todos-section";
 
-export default function Home() {
+const API_URL = "https://eli-workshop.vercel.app/api/users/xsmrj00/todos";
+
+const fetchTodos = async () => {
+  const response = await fetch(API_URL);
+  return await response.json();
+};
+
+export default async function Home() {
+  const todos = await fetchTodos();
+
   return (
     <>
       <Header title="My Todo List" subtitle="Add your tasks" />
-      <TodosSection />
+      <TodosSection todos={todos} />
       <footer>
         <p>Click on a task to mark it as completed</p>
       </footer>
